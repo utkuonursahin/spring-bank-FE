@@ -15,7 +15,7 @@ export default function LoginForm() {
     })
 
     const handleSubmit = () => {
-        console.log('helllo')
+        console.log('login')
     }
 
     return (

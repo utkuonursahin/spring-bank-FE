@@ -1,6 +1,7 @@
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Separator} from "@/components/ui/separator";
 import LoginForm from "@/components/LoginForm/LoginForm";
+import Link from "next/link";
 
 export default function Home() {
     return (
@@ -17,11 +18,12 @@ export default function Home() {
                 <CardContent className="flex flex-col gap-4 p-0 text-primary">
                     <LoginForm/>
                     <Separator/>
-                    <p>
-                        Don't have an account? <a href="#" className="text-green-500">Sign up</a>
+                    <p className="text-secondary-foreground">
+                        Don't have an account? <Link href="/register" className="underline">Sign up</Link>
                     </p>
                 </CardContent>
             </Card>
         </main>
+
     );
 }

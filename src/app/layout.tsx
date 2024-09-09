@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import {GeistSans} from 'geist/font/sans';
 import "./globals.css";
+import ReactQueryClientProvider from "@/components/ReactQueryClientProvider/ReactQueryClientProvider";
 
 export const metadata: Metadata = {
     title: "Spring Bank",
@@ -10,7 +11,11 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {
     return (
         <html lang="en">
-        <body className={GeistSans.className}>{children}</body>
+        <body className={GeistSans.className}>
+        <ReactQueryClientProvider>
+            {children}
+        </ReactQueryClientProvider>
+        </body>
         </html>
     );
 }
