@@ -4,28 +4,38 @@ import { z } from 'zod';
 import RegisterFormSchema from '@/components/RegisterForm/RegisterFormSchema';
 import registerFormSchema from '@/components/RegisterForm/RegisterFormSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
-} from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { IdCard } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { toast } from 'sonner';
+import { GenericResponse } from '@/enum/GenericResponse';
+import { UserDto } from '@/enum/UserDto';
 
 export default function RegisterForm() {
     const registerForm = useForm<z.infer<typeof RegisterFormSchema>>({
-        resolver: zodResolver(registerFormSchema)
+        resolver: zodResolver(registerFormSchema),
+        defaultValues: {
+            firstName: '',
+            lastName: '',
+            ssn: '',
+            password: ''
+        }
     });
     const mutation = useMutation({
-        mutationFn: (values: z.infer<typeof RegisterFormSchema>) =>
-            axios.post('http://localhost:8080/api/v1/auth/register', values)
+        mutationFn: (values: z.infer<typeof RegisterFormSchema>): Promise<AxiosResponse<GenericResponse<UserDto>>> => {
+            return axios.post('http://localhost:8080/api/v1/auth/register', values);
+        },
+        onSuccess: ({ data: { data: registeredUser } }) => {
+            toast.success(`Welcome ${registeredUser?.firstName} 👋`);
+        },
+        onError: ({
+            response: { data: { message } } = {} as AxiosResponse<GenericResponse<boolean>>
+        }: AxiosError<GenericResponse<boolean>>) => {
+            toast.error(message);
+        }
     });
     const handleSubmit = async (values: z.infer<typeof RegisterFormSchema>) => {
         mutation.mutate(values);
