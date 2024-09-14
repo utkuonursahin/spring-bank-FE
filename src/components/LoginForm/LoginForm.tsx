@@ -7,23 +7,37 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import loginFormSchema from '@/components/LoginForm/LoginFormSchema';
 import LoginFormSchema from '@/components/LoginForm/LoginFormSchema';
 import { z } from 'zod';
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
-} from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useMutation } from '@tanstack/react-query';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { toast } from 'sonner';
+import { GenericResponse } from '@/enum/GenericResponse';
+import { UserDto } from '@/enum/UserDto';
 
 export default function LoginForm() {
     const loginForm = useForm<z.infer<typeof LoginFormSchema>>({
-        resolver: zodResolver(loginFormSchema)
+        resolver: zodResolver(loginFormSchema),
+        defaultValues: {
+            ssn: '',
+            password: ''
+        }
     });
 
-    const handleSubmit = () => {
-        console.log('login');
+    const mutation = useMutation({
+        mutationFn: (values: z.infer<typeof LoginFormSchema>): Promise<AxiosResponse<GenericResponse<UserDto>>> => {
+            return axios.post('http://localhost:8080/api/v1/auth/login', values, { withCredentials: true });
+        },
+        onSuccess: ({ data: { data: authenticatedUser } }) => {
+            toast.success(`Login successful, welcome back ${authenticatedUser?.firstName} 👋`);
+        },
+        onError: ({
+            response: { data: { message } } = {} as AxiosResponse<GenericResponse<boolean>>
+        }: AxiosError<GenericResponse<boolean>>) => {
+            toast.error(message);
+        }
+    });
+    const handleSubmit = async (values: z.infer<typeof LoginFormSchema>) => {
+        mutation.mutate(values);
     };
 
     return (
@@ -64,6 +78,7 @@ export default function LoginForm() {
                             <FormControl>
                                 <Input
                                     className="text-secondary-foreground"
+                                    type="password"
                                     placeholder="Enter your password"
                                     {...field}
                                 />
