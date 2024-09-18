@@ -13,6 +13,8 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'sonner';
 import { GenericResponse } from '@/enum/GenericResponse';
 import { UserDto } from '@/enum/UserDto';
+import { useRouter } from 'next/navigation';
+import useUserStore from '@/stores/UserStore';
 
 export default function LoginForm() {
     const loginForm = useForm<z.infer<typeof LoginFormSchema>>({
@@ -22,6 +24,9 @@ export default function LoginForm() {
             password: ''
         }
     });
+    const router = useRouter();
+
+    const setUserGlobal = useUserStore((state) => state.setUser);
 
     const mutation = useMutation({
         mutationFn: (values: z.infer<typeof LoginFormSchema>): Promise<AxiosResponse<GenericResponse<UserDto>>> => {
@@ -29,6 +34,8 @@ export default function LoginForm() {
         },
         onSuccess: ({ data: { data: authenticatedUser } }) => {
             toast.success(`Login successful, welcome back ${authenticatedUser?.firstName} 👋`);
+            setUserGlobal(authenticatedUser);
+            router.push('/home');
         },
         onError: ({
             response: { data: { message } } = {} as AxiosResponse<GenericResponse<boolean>>
