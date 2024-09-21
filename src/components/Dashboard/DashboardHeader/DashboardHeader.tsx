@@ -6,9 +6,9 @@ export default function DashboardHeader() {
     const authUser = useUserStore((state) => state.user);
     return (
         <header className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold ca">
+            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
                 Welcome back, <span className="capitalize">{authUser.firstName}</span>
-            </h1>
+            </h3>
             <Avatar>
                 <AvatarImage src="/placeholder.svg?height=32&width=32" alt="John Doe" />
                 <AvatarFallback>
