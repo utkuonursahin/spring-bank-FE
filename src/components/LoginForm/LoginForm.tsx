@@ -11,8 +11,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'sonner';
-import { GenericResponse } from '@/enum/GenericResponse';
-import { UserDto } from '@/enum/UserDto';
+import { GenericResponse } from '@/dto/GenericResponse';
+import { UserDto } from '@/dto/UserDto';
 import { useRouter } from 'next/navigation';
 import useUserStore from '@/stores/UserStore';
 

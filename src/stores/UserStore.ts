@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { UserDto } from '@/enum/UserDto';
+import { UserDto } from '@/dto/UserDto';
 import { persist } from 'zustand/middleware';
 
 interface UserStore {
