@@ -19,7 +19,7 @@ export default function DashboardHeader() {
                         <AvatarImage src="/placeholder.svg?height=32&width=32" alt="John Doe" />
                         <AvatarFallback>
                             {authUser.firstName
-                                .at(0)
+                                ?.at(0)
                                 ?.toUpperCase()
                                 ?.concat(authUser.lastName.at(0)?.toUpperCase() || '')}
                         </AvatarFallback>
