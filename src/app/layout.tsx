@@ -3,6 +3,7 @@ import { GeistSans } from 'geist/font/sans';
 import './globals.css';
 import ReactQueryClientProvider from '@/components/ReactQueryClientProvider/ReactQueryClientProvider';
 import { Toaster } from '@/components/ui/sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 export const metadata: Metadata = {
     title: 'Spring Bank',
@@ -13,8 +14,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="en">
             <body className={GeistSans.className}>
-                <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
-                <Toaster />
+                <TooltipProvider delayDuration={100}>
+                    <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+                    <Toaster />
+                </TooltipProvider>
             </body>
         </html>
     );
