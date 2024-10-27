@@ -2,9 +2,9 @@ import { Cog, Home, IdCard, PiggyBank, Receipt } from 'lucide-react';
 
 export const SidebarItems = [
     {
-        title: 'Dashboard',
+        title: 'Home',
         icon: Home,
-        href: '/dashboard'
+        href: '/home'
     },
     {
         title: 'Accounts',

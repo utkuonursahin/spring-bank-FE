@@ -2,10 +2,14 @@ import { CreditCard, DollarSign, PiggyBank } from 'lucide-react';
 import InfoCard from '@/components/Dashboard/InfoCard/InfoCard';
 import RecentTransactionsTable from '@/components/Dashboard/RecentTransactionsTable/RecentTransactionsTable';
 import { CardTitle } from '@/components/ui/card';
+import DashboardHeader from '@/components/Dashboard/DashboardHeader/DashboardHeader';
+import { Separator } from '@/components/ui/separator';
 
 export default function Dashboard() {
     return (
-        <>
+        <div className="w-full flex flex-col gap-4 overflow-auto">
+            <DashboardHeader />
+            <Separator />
             <div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3">
                 <InfoCard>
                     <InfoCard.Header>
@@ -39,6 +43,6 @@ export default function Dashboard() {
                 </InfoCard>
             </div>
             <RecentTransactionsTable />
-        </>
+        </div>
     );
 }
