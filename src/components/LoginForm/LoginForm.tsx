@@ -38,9 +38,9 @@ export default function LoginForm() {
             router.push('/home');
         },
         onError: ({
-            response: { data: { message } } = {} as AxiosResponse<GenericResponse<boolean>>
+            response: { data: { error : {reason} } } = {} as AxiosResponse<GenericResponse<boolean>>
         }: AxiosError<GenericResponse<boolean>>) => {
-            toast.error(message);
+            toast.error(reason);
         }
     });
     const handleSubmit = async (values: z.infer<typeof LoginFormSchema>) => {
