@@ -16,10 +16,10 @@ export default function RecentTransactionsTable() {
         queryFn: getLatestUserTransactions
     });
     return (
-        <Card className="mb-8">
+        <Card>
             <CardHeader>
                 <CardTitle>Recent Transactions</CardTitle>
-                <CardDescription>Your last 5 transactions</CardDescription>
+                <CardDescription>Your last 10 transactions</CardDescription>
             </CardHeader>
             <CardContent>
                 <DataTable columns={columns} data={transactions.data?.data.transactions || []} />
