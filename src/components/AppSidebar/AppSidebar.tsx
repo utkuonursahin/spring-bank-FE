@@ -16,9 +16,20 @@ import useUserStore from '@/stores/UserStore';
 import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
 import { LogOut } from 'lucide-react';
 import CurrencyDisplay from '@/components/Dashboard/CurrencyDisplay/CurrencyDisplay';
+import axios from 'axios';
+import { Button } from '../ui/button';
+import { useRouter } from 'next/navigation';
+
+
 
 export default function AppSidebar() {
     const authUser = useUserStore((state) => state.user);
+    const router = useRouter();
+    const handleLogout = async () => {
+        await axios('http://localhost:8080/api/auth/logout',{withCredentials: true});
+        await router.push("/")
+    }
+
     return (
         <Sidebar>
             <SidebarHeader>
@@ -57,11 +68,17 @@ export default function AppSidebar() {
                             </p>
                         </div>
                     </PopoverTrigger>
-                    <PopoverContent className="w-56" align="start" side="top">
-                    <div className="flex items-center space-x-2 rounded-md p-2 hover:bg-secondary cursor-pointer text-destructive">
+                    <PopoverContent className="w-56 p-2" align="start" side="top">
+                        <Button 
+                            variant="ghost" 
+                            className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 focus-visible:ring-0" 
+                            onClick={handleLogout}
+                        >
+                            <div className="flex items-center gap-2">
                                 <LogOut size={16} />
-                                <span className="text-sm">Log out</span>
+                                <span>Log out</span>
                             </div>
+                        </Button>
                     </PopoverContent>
                 </Popover>
                 <CurrencyDisplay />
