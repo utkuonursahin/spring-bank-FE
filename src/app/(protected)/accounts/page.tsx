@@ -9,6 +9,7 @@ import { ArrowUpRight, ArrowDownRight, Wallet, PiggyBank, Clock } from "lucide-r
 import { AccountDto } from "@/dto/AccountDto"
 import { TransactionDto } from "@/dto/TransactionDto"
 import { TransactionType } from "@/enum/TransactionType"
+import { TransferDialog } from "@/components/Accounts/TransferDialog"
 
 // Define account types
 type AccountType = 'CURRENT' | 'SAVINGS' | 'FIXED_DEPOSIT'
@@ -87,6 +88,12 @@ export default function AccountsPage() {
                 </div>
               </CardContent>
             </Card>
+
+            <div className="flex items-center justify-center my-4">
+                {accountData && (
+                    <TransferDialog fromAccount={accountData} />
+                )}
+            </div>
           </div>}
 
           {isLoadingAccounts && <div>Loading accounts...</div>}
