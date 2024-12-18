@@ -13,8 +13,10 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'sonner';
 import { GenericResponse } from '@/dto/GenericResponse';
 import { UserDto } from '@/dto/UserDto';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterForm() {
+    const router = useRouter();
     const registerForm = useForm<z.infer<typeof RegisterFormSchema>>({
         resolver: zodResolver(registerFormSchema),
         defaultValues: {
@@ -30,11 +32,16 @@ export default function RegisterForm() {
         },
         onSuccess: ({ data: { data: registeredUser } }) => {
             toast.success(`Welcome ${registeredUser?.firstName} 👋`);
+            router.push('/');
         },
         onError: ({
-            response: { data: { message } } = {} as AxiosResponse<GenericResponse<boolean>>
+            response: {
+                data: {
+                    error: { reason }
+                }
+            } = {} as AxiosResponse<GenericResponse<boolean>>
         }: AxiosError<GenericResponse<boolean>>) => {
-            toast.error(message);
+            toast.error(reason);
         }
     });
     const handleSubmit = async (values: z.infer<typeof RegisterFormSchema>) => {
