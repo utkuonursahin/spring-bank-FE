@@ -1,15 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { TransferDialog } from "@/components/Accounts/TransferDialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AccountDto } from "@/dto/AccountDto";
+import { TransactionDto } from "@/dto/TransactionDto";
+import { TransactionType } from "@/enum/TransactionType";
 import { useQuery } from '@tanstack/react-query';
-import axios from "axios"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowUpRight, ArrowDownRight, Wallet, PiggyBank, Clock } from "lucide-react"
-import { AccountDto } from "@/dto/AccountDto"
-import { TransactionDto } from "@/dto/TransactionDto"
-import { TransactionType } from "@/enum/TransactionType"
-import { TransferDialog } from "@/components/Accounts/TransferDialog"
+import axios from "axios";
+import { Clock, PiggyBank, Wallet } from "lucide-react";
+import { useState } from "react";
 
 // Define account types
 type AccountType = 'CURRENT' | 'SAVINGS' | 'FIXED_DEPOSIT'
@@ -90,9 +90,9 @@ export default function AccountsPage() {
             </Card>
 
             <div className="flex items-center justify-center my-4">
-                {accountData && (
-                    <TransferDialog fromAccount={accountData} />
-                )}
+              {accountData && (
+                <TransferDialog fromAccount={accountData} />
+              )}
             </div>
           </div>}
 
@@ -117,8 +117,8 @@ export default function AccountsPage() {
                         {transaction.type === TransactionType.TRANSFER && (
                           <>
                             {transaction.sender.id === accountData?.id ? 'Sent to ' : 'Received from '}
-                            {transaction.sender.id === accountData?.id 
-                              ? transaction.receiver?.owner?.id 
+                            {transaction.sender.id === accountData?.id
+                              ? transaction.receiver?.owner?.id
                               : transaction.sender?.owner?.id}
                           </>
                         )}
@@ -127,15 +127,14 @@ export default function AccountsPage() {
                         Transaction ID: {transaction.id}
                       </p>
                     </div>
-                    <span className={`font-medium ${
-                      transaction.type === TransactionType.WITHDRAW || 
+                    <span className={`font-medium ${transaction.type === TransactionType.WITHDRAW ||
                       (transaction.type === TransactionType.TRANSFER && transaction.sender.id === accountData?.id)
-                        ? 'text-red-600' 
-                        : 'text-green-600'
-                    }`}>
-                      {transaction.type === TransactionType.WITHDRAW || 
-                      (transaction.type === TransactionType.TRANSFER && transaction.sender.id === accountData?.id)
-                        ? '-' 
+                      ? 'text-red-600'
+                      : 'text-green-600'
+                      }`}>
+                      {transaction.type === TransactionType.WITHDRAW ||
+                        (transaction.type === TransactionType.TRANSFER && transaction.sender.id === accountData?.id)
+                        ? '-'
                         : '+'}
                       ${Math.abs(transaction.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </span>
